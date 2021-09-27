@@ -21,6 +21,7 @@ import ca.com.island.dto.ClientBookDto;
 import ca.com.island.dto.LocalDto;
 import ca.com.island.exception.ValidateException;
 import ca.com.island.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 public class BookController {
@@ -28,6 +29,7 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 
+    @Operation(summary = "Add New Client/Booking")
 	@PostMapping(path = "/books", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookSerialDto> saveClientBook(@RequestBody final ClientBookDto clientBookDto) {
 		this.validate(clientBookDto.getStartDate(), clientBookDto.getEndDate());
@@ -35,6 +37,7 @@ public class BookController {
 		return new ResponseEntity<BookSerialDto>(bookSerialDto, HttpStatus.ACCEPTED);
 	}
 
+    @Operation(summary = "Show Booking")
 	@GetMapping(path = "/books", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<LocalDto>> show(@RequestParam final String startDate, final String endDate) {
 		LocalDate dateStartDate = LocalDate.parse(startDate);
@@ -43,11 +46,13 @@ public class BookController {
 		return ResponseEntity.ok(localDtoList);
 	}
 
+    @Operation(summary = "Delete Booking")
 	@DeleteMapping(path = "/books", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Boolean> cancelReservation(final String reservationNumber) {
 		return new ResponseEntity<Boolean>(bookService.cancelReservation(reservationNumber), HttpStatus.OK);
 	}
 
+    @Operation(summary = "Update Reservation")
 	@PatchMapping(path = "/books", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> updateReservation(final String dateStart, final String dateEnd,
 			final String numberReservation) {

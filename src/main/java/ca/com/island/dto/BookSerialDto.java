@@ -1,7 +1,11 @@
 package ca.com.island.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class BookSerialDto {
 
+	@Schema(description = "Number of Reservation", 
+            example = "977AGG-887HJ", required = true)
 	private String serial;
 
 	public BookSerialDto() {

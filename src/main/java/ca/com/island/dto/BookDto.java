@@ -2,14 +2,20 @@ package ca.com.island.dto;
 
 import java.time.LocalDate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class BookDto {
 
 	private Long localId;
 
 	private Long clientId;
 
+	@Schema(description = "Start Date", 
+            example = "2021-09-20", required = true)
 	private LocalDate startDate;
 
+	@Schema(description = "End Date", 
+            example = "2021-09-22", required = true)
 	private LocalDate endDate;
 
 	public Long getLocalId() {
