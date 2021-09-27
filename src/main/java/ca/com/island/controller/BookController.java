@@ -31,6 +31,7 @@ public class BookController {
 
 	@PostMapping(path = "/books", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<BookSerialDto> saveClientBook(@RequestBody final ClientBookDto clientBookDto) {
+		this.validate(clientBookDto.getStartDate(), clientBookDto.getEndDate());
 		BookSerialDto bookSerialDto = new BookSerialDto(bookService.save(clientBookDto));
 		return new ResponseEntity<BookSerialDto>(bookSerialDto, HttpStatus.ACCEPTED);
 	}
@@ -53,20 +54,21 @@ public class BookController {
 			final String numberReservation) {
 		LocalDate dateStartDate = LocalDate.parse(dateStart);
 		LocalDate dateEndDate = LocalDate.parse(dateEnd);
+		this.validate(dateStartDate, dateEndDate);
 		Boolean update = bookService.updateReservation(dateStartDate, dateEndDate, numberReservation);
 		return new ResponseEntity<String>(update.toString(), HttpStatus.OK);
 	}
 
-	private void validate(final BookDto bookDto) {
-		boolean resultDate = this.checkDate(bookDto.getStartDate(), bookDto.getEndDate());
+	private void validate(LocalDate dateStart, LocalDate dateEnd) {
+		boolean resultDate = this.checkDate(dateStart, dateEnd);
 		if (!resultDate) {
 			throw new ValidateException("Invalid date");
 		}
-		boolean resultMax3 = this.checkMax3Days(bookDto.getStartDate(), bookDto.getEndDate());
+		boolean resultMax3 = this.checkMax3Days(dateStart, dateEnd);
 		if (!resultMax3) {
 			throw new ValidateException("Only 3 days are allowed");
 		}
-		boolean resultMax30 = this.checkMax30DaysBefore(bookDto.getStartDate());
+		boolean resultMax30 = this.checkMax30DaysBefore(dateStart);
 		if (!resultMax30) {
 			throw new ValidateException("More than 30 days");
 		}
