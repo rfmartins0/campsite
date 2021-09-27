@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.com.island.dto.BookDto;
 import ca.com.island.dto.BookSerialDto;
 import ca.com.island.dto.ClientBookDto;
 import ca.com.island.dto.LocalDto;
