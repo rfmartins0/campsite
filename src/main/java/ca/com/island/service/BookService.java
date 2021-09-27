@@ -81,7 +81,7 @@ public class BookService {
 
 	public List<LocalEntity> showAvailable(LocalDate startDate, LocalDate endDate) {
 		List<BookEntity> bookEntitys = bookRepository.findFullLocals(startDate, endDate);
-		List<LocalEntity> localEntitys = List.copyOf(localService.getEntityAll());
+		List<LocalEntity> localEntitys = new LinkedList<LocalEntity>(localService.getEntityAll());
 		List<LocalEntity> localAvailablesEntitys = new LinkedList<LocalEntity>(localService.getEntityAll());
 		for (LocalEntity localEntity : localEntitys) {
 			for (BookEntity bookEntity : bookEntitys) {
@@ -101,7 +101,7 @@ public class BookService {
 				bookEntitys.add(bookFullEntity);
 			}
 		}
-		List<LocalEntity> localEntitys = List.copyOf(localService.getEntityAll());
+		List<LocalEntity> localEntitys = new LinkedList<LocalEntity>(localService.getEntityAll());
 		List<LocalEntity> localAvailablesEntitys = new LinkedList<LocalEntity>(localService.getEntityAll());
 		for (LocalEntity localEntity : localEntitys) {
 			for (BookEntity bookEntity : bookEntitys) {
