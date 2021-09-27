@@ -1,0 +1,12 @@
+INSERT INTO locals (site) values ('A1');
+INSERT INTO locals (site) values ('A2');
+INSERT INTO locals (site) values ('B1');
+INSERT INTO locals (site) values ('B2');
+INSERT INTO locals (site) values ('C1');
+INSERT INTO locals (site) values ('C2');
+INSERT INTO locals (site) values ('D1');
+INSERT INTO locals (site) values ('D2');
+INSERT INTO locals (site) values ('E1');
+INSERT INTO locals (site) values ('E2');
+INSERT INTO locals (site) values ('F1');
+INSERT INTO locals (site) values ('F2');
