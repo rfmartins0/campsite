@@ -89,8 +89,8 @@ public class BookController {
 	}
 
 	private boolean checkMax30DaysBefore(LocalDate dateStart) {
-		Period period = Period.between(dateStart, LocalDate.now());
-		if (period.getDays() > 30 || period.getMonths() > 0 || period.getYears() > 0) {
+		Period period = Period.between(LocalDate.now(), dateStart);
+		if (period.getDays() > 30 || period.getMonths() != 0 || period.getYears() != 0) {
 			return false;
 		}
 		return true;

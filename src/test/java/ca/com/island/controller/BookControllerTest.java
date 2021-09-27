@@ -40,7 +40,7 @@ public class BookControllerTest {
 	}
 	
 	@Test
-	public void testBookingCode() throws URISyntaxException {
+	public void testBookingInvalidDateCode() throws URISyntaxException {
 		final String baseUrl = "http://localhost:" + port + "/books";
 		URI uri = new URI(baseUrl);
 		ClientBookDto clientBookDto = new ClientBookDto();
@@ -54,7 +54,7 @@ public class BookControllerTest {
 	}
 	
 	@Test
-	public void testBookingMessage() throws URISyntaxException {
+	public void testBookingInvalidDateMessage() throws URISyntaxException {
 		final String baseUrl = "http://localhost:" + port + "/books";
 		URI uri = new URI(baseUrl);
 		ClientBookDto clientBookDto = new ClientBookDto();
@@ -64,7 +64,65 @@ public class BookControllerTest {
 		clientBookDto.setName("Neil XYZ");
 		HttpEntity<ClientBookDto> request = new HttpEntity<>(clientBookDto);
 		ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
-		assertEquals("{\"message\":\"Invalid date\"}", result.getBody());
+		assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+	}
+	
+	@Test
+	public void testBookingOnly3DaysAllowedCode() throws URISyntaxException {
+		final String baseUrl = "http://localhost:" + port + "/books";
+		URI uri = new URI(baseUrl);
+		ClientBookDto clientBookDto = new ClientBookDto();
+		clientBookDto.setEmail(baseUrl);
+		clientBookDto.setEndDate(LocalDate.now().plusDays(35l));
+		clientBookDto.setStartDate(LocalDate.now().plusDays(1l));
+		clientBookDto.setName("Neil XYZ");
+		HttpEntity<ClientBookDto> request = new HttpEntity<>(clientBookDto);
+		ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
+		assertEquals("{\"message\":\"Only 3 days are allowed\"}", result.getBody());
+	}
+	
+	
+	@Test
+	public void testBookingOnly3DaysAllowedMessage() throws URISyntaxException {
+		final String baseUrl = "http://localhost:" + port + "/books";
+		URI uri = new URI(baseUrl);
+		ClientBookDto clientBookDto = new ClientBookDto();
+		clientBookDto.setEmail(baseUrl);
+		clientBookDto.setEndDate(LocalDate.now().plusDays(35l));
+		clientBookDto.setStartDate(LocalDate.now().plusDays(1l));
+		clientBookDto.setName("Neil XYZ");
+		HttpEntity<ClientBookDto> request = new HttpEntity<>(clientBookDto);
+		ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
+		assertEquals("{\"message\":\"Only 3 days are allowed\"}", result.getBody());
+	}
+	
+	
+	@Test
+	public void testBookingMoreThan30DaysMessage() throws URISyntaxException {
+		final String baseUrl = "http://localhost:" + port + "/books";
+		URI uri = new URI(baseUrl);
+		ClientBookDto clientBookDto = new ClientBookDto();
+		clientBookDto.setEmail(baseUrl);
+		clientBookDto.setStartDate(LocalDate.now().plusDays(100l));
+		clientBookDto.setEndDate(LocalDate.now().plusDays(101l));
+		clientBookDto.setName("Neil XYZ");
+		HttpEntity<ClientBookDto> request = new HttpEntity<>(clientBookDto);
+		ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
+		assertEquals("{\"message\":\"More than 30 days\"}", result.getBody());
+	}
+	
+	@Test
+	public void testBookingMoreThan30DaysCode() throws URISyntaxException {
+		final String baseUrl = "http://localhost:" + port + "/books";
+		URI uri = new URI(baseUrl);
+		ClientBookDto clientBookDto = new ClientBookDto();
+		clientBookDto.setEmail(baseUrl);
+		clientBookDto.setStartDate(LocalDate.now().plusDays(100l));
+		clientBookDto.setEndDate(LocalDate.now().plusDays(101l));
+		clientBookDto.setName("Neil XYZ");
+		HttpEntity<ClientBookDto> request = new HttpEntity<>(clientBookDto);
+		ResponseEntity<String> result = this.restTemplate.postForEntity(uri, request, String.class);
+		assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
 	}
 
 }
