@@ -68,7 +68,7 @@ public class BookService {
 			final String numberOfReservation) {
 		int number = 0;
 		Optional<BookEntity> bookEntityOptional = bookRepository.findByReservationNumber(numberOfReservation);
-		if (bookEntityOptional.isEmpty()) {
+		if (!bookEntityOptional.isPresent()) {
 			throw new ValidateException("The reservation number is wrong");
 		}
 		List<LocalEntity> localEntitys = showAvailableWithOut(dateStart, dateEnd, numberOfReservation);
