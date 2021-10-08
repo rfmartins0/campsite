@@ -37,7 +37,7 @@ public class BookController {
 		return new ResponseEntity<BookSerialDto>(bookSerialDto, HttpStatus.ACCEPTED);
 	}
 
-    @Operation(summary = "Show Booking")
+    @Operation(summary = "Show Free Sites")
 	@GetMapping(path = "/books", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<LocalDto>> show(@RequestParam final String startDate, final String endDate) {
 		LocalDate dateStartDate = LocalDate.parse(startDate);
