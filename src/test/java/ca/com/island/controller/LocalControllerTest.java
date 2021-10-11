@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +29,14 @@ public class LocalControllerTest {
 	@Test
 	public void testLocals() throws URISyntaxException {
 		final String baseUrl = "http://localhost:" + port + "/locals";
+		URI uri = new URI(baseUrl);
+		ResponseEntity<Object> response = this.restTemplate.getForEntity(uri, Object.class);
+		assertTrue(response.getStatusCode().is2xxSuccessful());
+	}
+	
+	@Test
+	public void testShowAvailable() throws URISyntaxException {
+		final String baseUrl = "http://localhost:" + port + "/locals/free?startDate=" + LocalDate.now().toString() + "&endDate=" + LocalDate.now().plusDays(2l).toString();
 		URI uri = new URI(baseUrl);
 		ResponseEntity<Object> response = this.restTemplate.getForEntity(uri, Object.class);
 		assertTrue(response.getStatusCode().is2xxSuccessful());

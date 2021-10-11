@@ -31,13 +31,7 @@ public class BookControllerTest {
 	@Autowired
 	private TestRestTemplate restTemplate;
 	
-	@Test
-	public void testShowAvailable() throws URISyntaxException {
-		final String baseUrl = "http://localhost:" + port + "/books?startDate=" + LocalDate.now().toString() + "&endDate=" + LocalDate.now().plusDays(2l).toString();
-		URI uri = new URI(baseUrl);
-		ResponseEntity<Object> response = this.restTemplate.getForEntity(uri, Object.class);
-		assertTrue(response.getStatusCode().is2xxSuccessful());
-	}
+	
 	
 	@Test
 	public void testBookingInvalidDateCode() throws URISyntaxException {

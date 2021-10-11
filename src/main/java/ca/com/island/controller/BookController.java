@@ -2,23 +2,19 @@ package ca.com.island.controller;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.com.island.dto.BookSerialDto;
 import ca.com.island.dto.ClientBookDto;
-import ca.com.island.dto.LocalDto;
 import ca.com.island.exception.ValidateException;
 import ca.com.island.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -68,6 +64,10 @@ public class BookController {
 		if (!resultMax30) {
 			throw new ValidateException("More than 30 days");
 		}
+		boolean resultValidate = this.checkValidDate(dateStart);
+		if (!resultValidate) {
+			throw new ValidateException("The date must be greater than the current date");
+		}
 	}
 
 	private boolean checkDate(LocalDate dateStart, LocalDate dateEnd) {
@@ -88,6 +88,13 @@ public class BookController {
 	private boolean checkMax30DaysBefore(LocalDate dateStart) {
 		Period period = Period.between(LocalDate.now(), dateStart);
 		if (period.getDays() > 30 || period.getMonths() != 0 || period.getYears() != 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean checkValidDate(LocalDate dateStart) {
+		if (!dateStart.isAfter(LocalDate.now())) {
 			return false;
 		}
 		return true;
